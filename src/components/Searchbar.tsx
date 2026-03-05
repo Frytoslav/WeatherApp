@@ -1,16 +1,38 @@
 import {fetchWeather} from "../api/weatherService.ts";
 import {useState} from "react";
+import type {FullWeatherData} from "../types/weather.ts";
+import * as React from "react";
 
-function Searchbar(){
+interface SearchbarProps {
+    onWeatherUpdate: (data: FullWeatherData | null) => void;
+}
+
+function Searchbar({onWeatherUpdate}: SearchbarProps) {
     const [search, setSearch] = useState("");
 
     const handleKeyPress = async (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key === 'Enter' && search.trim() !== '') {
             try {
-                const data = await fetchWeather(search);
-                console.log('Weather data:', data);
+                const rawData = await fetchWeather(search);
+                const formattedData: FullWeatherData = {
+                    header: {
+                        city: rawData.name,
+                        country: rawData.sys.country,
+                        date: new Date().toLocaleDateString()
+                    },
+                    body: {
+                        temperature: rawData.main.temp,
+                        description: rawData.weather[0].description,
+                        icon: rawData.weather[0].icon,
+                        humidity: rawData.main.humidity,
+                        windSpeed: rawData.wind.speed
+                    }
+                };
+
+                onWeatherUpdate(formattedData);
             } catch (error) {
-                console.error('Błąd:', error);
+                console.error(error);
+                onWeatherUpdate(null);
             }
         }
     };
