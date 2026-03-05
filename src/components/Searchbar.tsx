@@ -5,13 +5,15 @@ import * as React from "react";
 
 interface SearchbarProps {
     onWeatherUpdate: (data: FullWeatherData | null) => void;
+    setContentState: (state: "idle" | "loading" | "error" | "dashboard") => void;
 }
 
-function Searchbar({onWeatherUpdate}: SearchbarProps) {
+function Searchbar({onWeatherUpdate, setContentState}: SearchbarProps) {
     const [search, setSearch] = useState("");
 
     const handleKeyPress = async (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key === 'Enter' && search.trim() !== '') {
+            setContentState("loading");
             try {
                 const rawData = await fetchWeather(search);
                 const formattedData: FullWeatherData = {
@@ -30,9 +32,12 @@ function Searchbar({onWeatherUpdate}: SearchbarProps) {
                 };
 
                 onWeatherUpdate(formattedData);
+                setContentState("dashboard");
+                setSearch("");
             } catch (error) {
                 console.error(error);
                 onWeatherUpdate(null);
+                setContentState("error");
             }
         }
     };
