@@ -16,6 +16,7 @@ function Searchbar({onWeatherUpdate, setContentState}: SearchbarProps) {
             setContentState("loading");
             try {
                 const rawData = await fetchWeather(search);
+                {/*TO DO: Move this formatting logic to a separate utility function for better separation of concerns*/}
                 const formattedData: FullWeatherData = {
                     header: {
                         city: rawData.name,

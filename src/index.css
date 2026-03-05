@@ -1,4 +1,5 @@
 @import "tailwindcss";
+{/* TO DO: Light and Dark mode */}
 html, body, #root {
   height: 100%;
   margin: 0;
