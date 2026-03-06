@@ -1,11 +1,24 @@
 import Searchbar from "./Searchbar.tsx";
 import Dashboard from "./Dashboard.tsx";
 import type {FullWeatherData} from "../types/weather.ts";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
-function AppContent() {
+interface AppContentProps {
+    onWeatherIdChange: (weatherId: number | null) => void;
+}
+
+function AppContent({onWeatherIdChange}: AppContentProps) {
     const [weather, setWeather] = useState<FullWeatherData | null>(null);
     const [contentState, setContentState] = useState<"idle" | "loading" | "error" | "dashboard">("idle");
+
+    useEffect(() => {
+        if (weather?.body?.id) {
+            onWeatherIdChange(weather.body.id);
+        } else {
+            onWeatherIdChange(null);
+        }
+    }, [weather, onWeatherIdChange]);
+
     return (
         <div className="relative w-full h-full flex flex-col items-center justify-center">
             <div className="w-full h-full flex items-center justify-center p-4">

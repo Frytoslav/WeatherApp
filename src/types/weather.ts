@@ -1,3 +1,4 @@
+{/* TO DO: Restructure the weather data into one single interface that can be easily consumed by the Dashboard component*/}
 interface WeatherHeader {
     city: string;
     country: string;

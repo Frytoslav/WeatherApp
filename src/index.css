@@ -11,3 +11,22 @@ body {
   color: white;
   font-family: system-ui, sans-serif;
 }
+
+.with-sun-rays::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 80vh;
+  height: 80vh;
+  background: radial-gradient(
+          circle at 90% 90%,
+          rgba(255, 255, 255, 0.6) 0%,
+          rgba(255, 240, 180, 0.4) 30%,
+          rgba(255, 255, 255, 0) 70%
+  );
+
+  filter: blur(50px);
+  opacity: 1;
+  z-index: -1;
+}
