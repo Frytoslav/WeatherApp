@@ -25,6 +25,7 @@ function Searchbar({onWeatherUpdate, setContentState}: SearchbarProps) {
                     },
                     body: {
                         temperature: rawData.main.temp,
+                        id: rawData.weather[0].id,
                         description: rawData.weather[0].description,
                         icon: rawData.weather[0].icon,
                         humidity: rawData.main.humidity,

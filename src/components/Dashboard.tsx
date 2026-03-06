@@ -20,7 +20,7 @@ function Dashboard({weatherData}: { weatherData: FullWeatherData | null }) {
             </div>
             <div className={`flex items-center mb-4 w-full`}>
                 <div className="flex flex-col items-center w-full">
-                    <p className="text-4xl mb-4">{weatherData.body.icon}</p>
+                    <img src={`https://openweathermap.org/payload/api/media/file/`+`${weatherData.body.icon}.png`} alt="Weather Icon" className="w-20 h-20 mb-2"/>
                     <p className="text-sm text-gray-300 mb-2">{capitalizeFirstLetter(weatherData.body.description)}</p>
                     <p className="text-sm text-gray-300 mb-2">{weatherData.body.humidity}% Humidity</p>
                     <p className="text-2xl font-bold text-white">{weatherData.body.temperature}</p>

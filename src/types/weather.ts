@@ -5,6 +5,7 @@ interface WeatherHeader {
 }
 
 interface WeatherBody {
+    id: number;
     temperature: number;
     description: string;
     icon: string;
