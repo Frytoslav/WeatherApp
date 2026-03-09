@@ -1,45 +1,18 @@
-import {fetchWeather} from "../api/weatherService.ts";
 import {useState} from "react";
-import type {FullWeatherData} from "../types/weather.ts";
 import * as React from "react";
 
 interface SearchbarProps {
-    onWeatherUpdate: (data: FullWeatherData | null) => void;
-    setContentState: (state: "idle" | "loading" | "error" | "dashboard") => void;
+    onSearch: (city: string) => void;
 }
 
-function Searchbar({onWeatherUpdate, setContentState}: SearchbarProps) {
+function Searchbar({onSearch}: SearchbarProps) {
     const [search, setSearch] = useState("");
 
     const handleKeyPress = async (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key === 'Enter' && search.trim() !== '') {
-            setContentState("loading");
-            try {
-                const rawData = await fetchWeather(search);
-                {/*TO DO: Move this formatting logic to a separate utility function for better separation of concerns*/}
-                const formattedData: FullWeatherData = {
-                    header: {
-                        city: rawData.name,
-                        country: rawData.sys.country,
-                        date: new Date().toLocaleDateString()
-                    },
-                    body: {
-                        temperature: rawData.main.temp,
-                        id: rawData.weather[0].id,
-                        description: rawData.weather[0].description,
-                        icon: rawData.weather[0].icon,
-                        humidity: rawData.main.humidity,
-                        windSpeed: rawData.wind.speed
-                    }
-                };
-
-                onWeatherUpdate(formattedData);
-                setContentState("dashboard");
+            if (event.key === 'Enter' && search.trim() !== '') {
+                onSearch(search.trim());
                 setSearch("");
-            } catch (error) {
-                console.error(error);
-                onWeatherUpdate(null);
-                setContentState("error");
             }
         }
     };
